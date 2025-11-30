@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Icon Generator</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>PWA Icon Generator</h1>
+    <p>Right-click each icon and "Save image as..." with the corresponding filename</p>
+
+    <div>
+        <h3>192x192 (save as: pwa-192x192.png)</h3>
+        <canvas id="icon192" width="192" height="192"></canvas>
+    </div>
+
+    <div>
+        <h3>512x512 (save as: pwa-512x512.png)</h3>
+        <canvas id="icon512" width="512" height="512"></canvas>
+    </div>
+
+    <div>
+        <h3>180x180 (save as: apple-touch-icon.png)</h3>
+        <canvas id="iconApple" width="180" height="180"></canvas>
+    </div>
+
+    <script>
+        function drawIcon(canvas) {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+
+            // Background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#f97316');
+            gradient.addColorStop(1, '#ea580c');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Coffee cup
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = size / 64;
+
+            const scale = size / 512;
+            const centerX = size / 2;
+            const centerY = size / 2;
+
+            // Cup body
+            ctx.beginPath();
+            ctx.moveTo(centerX - 80 * scale, centerY - 40 * scale);
+            ctx.lineTo(centerX - 60 * scale, centerY + 80 * scale);
+            ctx.quadraticCurveTo(centerX - 60 * scale, centerY + 100 * scale, centerX, centerY + 100 * scale);
+            ctx.quadraticCurveTo(centerX + 60 * scale, centerY + 100 * scale, centerX + 60 * scale, centerY + 80 * scale);
+            ctx.lineTo(centerX + 80 * scale, centerY - 40 * scale);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Handle
+            ctx.beginPath();
+            ctx.arc(centerX + 90 * scale, centerY + 20 * scale, 25 * scale, -Math.PI / 2, Math.PI / 2, false);
+            ctx.stroke();
+
+            // Steam
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = size / 80;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(centerX - 40 * scale, centerY - 60 * scale);
+            ctx.quadraticCurveTo(centerX - 50 * scale, centerY - 90 * scale, centerX - 50 * scale, centerY - 100 * scale);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - 60 * scale);
+            ctx.lineTo(centerX, centerY - 110 * scale);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(centerX + 40 * scale, centerY - 60 * scale);
+            ctx.quadraticCurveTo(centerX + 50 * scale, centerY - 90 * scale, centerX + 50 * scale, centerY - 100 * scale);
+            ctx.stroke();
+        }
+
+        // Draw all icons
+        drawIcon(document.getElementById('icon192'));
+        drawIcon(document.getElementById('icon512'));
+        drawIcon(document.getElementById('iconApple'));
+    </script>
+</body>
+
+</html>
