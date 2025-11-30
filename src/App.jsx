@@ -977,29 +977,32 @@ export default function RestaurantPOS() {
                 <p className="text-xs">Select items from the menu</p>
               </div>
             ) : (
-              <div className="space-y-3 md:space-y-4">
+              <div className="space-y-2 md:space-y-3">
                 {activeCustomer.orders.map((item, idx) => (
-                  <div key={`${item.id}-${idx}`} className="flex justify-between items-center bg-slate-50 p-4 md:p-5 rounded-xl border-2 border-slate-100 hover:border-orange-200 animate-in slide-in-from-left-2 duration-100 shadow-sm">
-                    <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
-                      <div className="bg-orange-100 text-orange-700 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-base md:text-lg border-2 border-orange-200 shrink-0">
-                        {item.qty}
-                      </div>
-                      <div className="flex flex-col min-w-0 flex-1">
-                        <span className="font-bold text-slate-800 text-base md:text-lg truncate">{item.name}</span>
-                        <span className="text-xs md:text-sm text-slate-500">₹{item.price} x {item.qty}</span>
-                      </div>
+                  <div key={`${item.id}-${idx}`} className="flex items-center gap-2 md:gap-3 bg-slate-50 p-3 md:p-4 rounded-xl border-2 border-slate-100 hover:border-orange-200 shadow-sm">
+                    {/* Quantity Badge */}
+                    <div className="bg-orange-100 text-orange-700 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-sm md:text-base border-2 border-orange-200 shrink-0">
+                      {item.qty}
                     </div>
 
-                    <div className="flex items-center gap-2 md:gap-3 shrink-0">
-                      <span className="font-bold text-slate-800 text-base md:text-lg whitespace-nowrap">₹{item.price * item.qty}</span>
-                      {/* DELETE BUTTON - ALWAYS VISIBLE */}
-                      <button
-                        onClick={() => deleteItem(idx)}
-                        className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 md:p-3 rounded-lg transition-colors shrink-0"
-                      >
-                        <Trash2 size={20} className="md:w-6 md:h-6" />
-                      </button>
+                    {/* Item Info */}
+                    <div className="flex flex-col min-w-0 flex-1">
+                      <span className="font-bold text-slate-800 text-sm md:text-base truncate">{item.name}</span>
+                      <span className="text-xs text-slate-500">₹{item.price} × {item.qty}</span>
                     </div>
+
+                    {/* Price */}
+                    <div className="font-bold text-slate-800 text-sm md:text-base shrink-0">
+                      ₹{item.price * item.qty}
+                    </div>
+
+                    {/* DELETE BUTTON */}
+                    <button
+                      onClick={() => deleteItem(idx)}
+                      className="text-red-500 hover:text-white hover:bg-red-500 p-2 rounded-lg transition-all shrink-0 active:scale-95"
+                    >
+                      <Trash2 size={18} className="md:w-5 md:h-5" />
+                    </button>
                   </div>
                 ))}
               </div>
@@ -1050,25 +1053,25 @@ export default function RestaurantPOS() {
                   <span className="text-slate-600 text-lg md:text-xl font-bold">₹{item.price}</span>
 
                   {qty > 0 ? (
-                    /* QUANTITY CONTROLS - TABLET OPTIMIZED */
-                    <div className="flex items-center bg-orange-50 rounded-full border-2 border-orange-400 shadow-sm">
+                    /* QUANTITY CONTROLS - FIXED SPACING */
+                    <div className="flex items-center bg-orange-50 rounded-full border-2 border-orange-400 shadow-sm overflow-hidden">
                       <button
                         onClick={(e) => decreaseItemQuantity(item.id, e)}
-                        className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-l-full active:bg-orange-200 transition-colors"
+                        className="w-9 h-9 md:w-12 md:h-12 flex items-center justify-center text-orange-600 hover:bg-orange-100 active:bg-orange-200 transition-colors shrink-0"
                       >
-                        <Minus size={20} className="md:w-6 md:h-6" />
+                        <Minus size={18} className="md:w-5 md:h-5" />
                       </button>
-                      <span className="w-8 md:w-12 text-center font-bold text-orange-700 text-lg md:text-2xl">{qty}</span>
+                      <span className="px-2 md:px-3 min-w-[32px] md:min-w-[48px] text-center font-bold text-orange-700 text-base md:text-xl shrink-0">{qty}</span>
                       <button
                         onClick={(e) => addItemToOrder(item, e)}
-                        className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-r-full active:bg-orange-200 transition-colors"
+                        className="w-9 h-9 md:w-12 md:h-12 flex items-center justify-center text-orange-600 hover:bg-orange-100 active:bg-orange-200 transition-colors shrink-0"
                       >
-                        <Plus size={20} className="md:w-6 md:h-6" />
+                        <Plus size={18} className="md:w-5 md:h-5" />
                       </button>
                     </div>
                   ) : (
-                    <div className="w-12 h-12 md:w-16 md:h-16 bg-emerald-50 text-emerald-600 border-2 border-emerald-200 rounded-full flex items-center justify-center shadow-sm">
-                      <Plus size={24} className="md:w-8 md:h-8" />
+                    <div className="w-11 h-11 md:w-14 md:h-14 bg-emerald-50 text-emerald-600 border-2 border-emerald-200 rounded-full flex items-center justify-center shadow-sm shrink-0">
+                      <Plus size={22} className="md:w-7 md:h-7" />
                     </div>
                   )}
                 </div>
