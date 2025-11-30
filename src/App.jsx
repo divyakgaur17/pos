@@ -1041,37 +1041,40 @@ export default function RestaurantPOS() {
                 key={item.id}
                 onClick={() => qty === 0 && addItemToOrder(item)}
                 className={`
-                    relative bg-white p-4 md:p-6 h-36 md:h-44 rounded-2xl border-2 shadow-md transition-all flex flex-col justify-between items-start text-left select-none
+                    relative bg-white p-4 md:p-5 h-32 md:h-36 rounded-2xl border-2 shadow-md transition-all flex flex-col justify-between items-center text-center select-none
                     ${qty > 0
                     ? 'border-orange-500 shadow-orange-200 ring-2 ring-orange-400'
                     : 'border-slate-200 hover:border-orange-400 hover:shadow-lg cursor-pointer active:scale-95'}
                   `}
               >
-                <span className="font-bold text-slate-800 leading-tight text-lg md:text-2xl">{item.name}</span>
+                {/* Top: Item Name & Price */}
+                <div className="w-full flex justify-between items-start">
+                  <span className="font-bold text-slate-800 leading-tight text-base md:text-xl text-left flex-1">{item.name}</span>
+                  <span className="text-slate-600 text-base md:text-lg font-bold ml-2 shrink-0">₹{item.price}</span>
+                </div>
 
-                <div className="w-full flex justify-between items-end mt-2">
-                  <span className="text-slate-600 text-lg md:text-xl font-bold">₹{item.price}</span>
-
+                {/* Bottom: Add/Quantity Button (Centered) */}
+                <div className="flex items-center justify-center w-full">
                   {qty > 0 ? (
-                    /* QUANTITY CONTROLS - FIXED SPACING */
+                    /* QUANTITY CONTROLS - CENTERED */
                     <div className="flex items-center bg-orange-50 rounded-full border-2 border-orange-400 shadow-sm overflow-hidden">
                       <button
                         onClick={(e) => decreaseItemQuantity(item.id, e)}
-                        className="w-9 h-9 md:w-12 md:h-12 flex items-center justify-center text-orange-600 hover:bg-orange-100 active:bg-orange-200 transition-colors shrink-0"
+                        className="w-9 h-9 md:w-11 md:h-11 flex items-center justify-center text-orange-600 hover:bg-orange-100 active:bg-orange-200 transition-colors shrink-0"
                       >
                         <Minus size={18} className="md:w-5 md:h-5" />
                       </button>
-                      <span className="px-2 md:px-3 min-w-[32px] md:min-w-[48px] text-center font-bold text-orange-700 text-base md:text-xl shrink-0">{qty}</span>
+                      <span className="px-3 md:px-4 min-w-[36px] md:min-w-[48px] text-center font-bold text-orange-700 text-lg md:text-xl shrink-0">{qty}</span>
                       <button
                         onClick={(e) => addItemToOrder(item, e)}
-                        className="w-9 h-9 md:w-12 md:h-12 flex items-center justify-center text-orange-600 hover:bg-orange-100 active:bg-orange-200 transition-colors shrink-0"
+                        className="w-9 h-9 md:w-11 md:h-11 flex items-center justify-center text-orange-600 hover:bg-orange-100 active:bg-orange-200 transition-colors shrink-0"
                       >
                         <Plus size={18} className="md:w-5 md:h-5" />
                       </button>
                     </div>
                   ) : (
-                    <div className="w-11 h-11 md:w-14 md:h-14 bg-emerald-50 text-emerald-600 border-2 border-emerald-200 rounded-full flex items-center justify-center shadow-sm shrink-0">
-                      <Plus size={22} className="md:w-7 md:h-7" />
+                    <div className="w-12 h-12 md:w-14 md:h-14 bg-emerald-50 text-emerald-600 border-2 border-emerald-200 rounded-full flex items-center justify-center shadow-sm hover:bg-emerald-100 transition-colors">
+                      <Plus size={24} className="md:w-7 md:h-7" />
                     </div>
                   )}
                 </div>
