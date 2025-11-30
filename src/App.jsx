@@ -921,8 +921,8 @@ export default function RestaurantPOS() {
   return (
     <div className="h-screen flex flex-col md:flex-row bg-slate-50 overflow-hidden">
 
-      {/* LEFT: Order Summary & Guests */}
-      <div className="w-full md:w-1/3 bg-white border-r border-slate-200 flex flex-col h-full shadow-xl z-10">
+      {/* LEFT: Order Summary & Guests - FIXED LAYOUT */}
+      <div className="w-full md:w-1/3 bg-white border-r border-slate-200 flex flex-col h-full shadow-xl z-10 max-h-screen">
 
         {/* Header */}
         <div className="p-4 bg-slate-800 text-white flex justify-between items-center shrink-0">
@@ -967,8 +967,8 @@ export default function RestaurantPOS() {
           </button>
         </div>
 
-        {/* Order List (LEFT SIDE) */}
-        <div className="flex-1 overflow-y-auto p-4 bg-white">
+        {/* Order List (LEFT SIDE) - SCROLLABLE */}
+        <div className="flex-1 overflow-y-auto p-4 bg-white min-h-0">
           {activeCustomer ? (
             activeCustomer.orders.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-slate-300 space-y-2">
@@ -980,22 +980,22 @@ export default function RestaurantPOS() {
               <div className="space-y-3 md:space-y-4">
                 {activeCustomer.orders.map((item, idx) => (
                   <div key={`${item.id}-${idx}`} className="flex justify-between items-center bg-slate-50 p-4 md:p-5 rounded-xl border-2 border-slate-100 hover:border-orange-200 animate-in slide-in-from-left-2 duration-100 shadow-sm">
-                    <div className="flex items-center gap-3 md:gap-4">
-                      <div className="bg-orange-100 text-orange-700 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-base md:text-lg border-2 border-orange-200">
+                    <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
+                      <div className="bg-orange-100 text-orange-700 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-base md:text-lg border-2 border-orange-200 shrink-0">
                         {item.qty}
                       </div>
-                      <div className="flex flex-col">
-                        <span className="font-bold text-slate-800 text-base md:text-lg">{item.name}</span>
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <span className="font-bold text-slate-800 text-base md:text-lg truncate">{item.name}</span>
                         <span className="text-xs md:text-sm text-slate-500">₹{item.price} x {item.qty}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 md:gap-4">
-                      <span className="font-bold text-slate-800 w-16 md:w-20 text-right text-base md:text-lg">₹{item.price * item.qty}</span>
-                      {/* DELETE BUTTON */}
+                    <div className="flex items-center gap-2 md:gap-3 shrink-0">
+                      <span className="font-bold text-slate-800 text-base md:text-lg whitespace-nowrap">₹{item.price * item.qty}</span>
+                      {/* DELETE BUTTON - ALWAYS VISIBLE */}
                       <button
                         onClick={() => deleteItem(idx)}
-                        className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2 md:p-3 rounded-lg transition-colors"
+                        className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 md:p-3 rounded-lg transition-colors shrink-0"
                       >
                         <Trash2 size={20} className="md:w-6 md:h-6" />
                       </button>
@@ -1009,7 +1009,7 @@ export default function RestaurantPOS() {
           )}
         </div>
 
-        {/* Action Bar - TABLET OPTIMIZED */}
+        {/* Action Bar - ALWAYS VISIBLE AT BOTTOM */}
         <div className="p-5 md:p-6 bg-white border-t-2 border-slate-200 shrink-0 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
           <div className="flex justify-between items-end mb-4 md:mb-5">
             <span className="text-sm md:text-base text-slate-500 font-medium">Seat Total</span>
