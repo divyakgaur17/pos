@@ -977,27 +977,27 @@ export default function RestaurantPOS() {
                 <p className="text-xs">Select items from the menu</p>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-3 md:space-y-4">
                 {activeCustomer.orders.map((item, idx) => (
-                  <div key={`${item.id}-${idx}`} className="flex justify-between items-center bg-slate-50 p-3 rounded-lg border border-slate-100 animate-in slide-in-from-left-2 duration-100">
-                    <div className="flex items-center gap-3">
-                      <div className="bg-slate-200 text-slate-700 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">
+                  <div key={`${item.id}-${idx}`} className="flex justify-between items-center bg-slate-50 p-4 md:p-5 rounded-xl border-2 border-slate-100 hover:border-orange-200 animate-in slide-in-from-left-2 duration-100 shadow-sm">
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <div className="bg-orange-100 text-orange-700 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-base md:text-lg border-2 border-orange-200">
                         {item.qty}
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-bold text-slate-700">{item.name}</span>
-                        <span className="text-xs text-slate-400">₹{item.price} x {item.qty}</span>
+                        <span className="font-bold text-slate-800 text-base md:text-lg">{item.name}</span>
+                        <span className="text-xs md:text-sm text-slate-500">₹{item.price} x {item.qty}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <span className="font-semibold text-slate-700 w-16 text-right">₹{item.price * item.qty}</span>
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <span className="font-bold text-slate-800 w-16 md:w-20 text-right text-base md:text-lg">₹{item.price * item.qty}</span>
                       {/* DELETE BUTTON */}
                       <button
                         onClick={() => deleteItem(idx)}
-                        className="text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                        className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2 md:p-3 rounded-lg transition-colors"
                       >
-                        <Trash2 size={18} />
+                        <Trash2 size={20} className="md:w-6 md:h-6" />
                       </button>
                     </div>
                   </div>
@@ -1009,27 +1009,27 @@ export default function RestaurantPOS() {
           )}
         </div>
 
-        {/* Action Bar */}
-        <div className="p-4 bg-white border-t border-slate-200 shrink-0 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
-          <div className="flex justify-between items-end mb-4">
-            <span className="text-sm text-slate-500">Seat Total</span>
-            <span className="text-2xl font-bold text-slate-800">
+        {/* Action Bar - TABLET OPTIMIZED */}
+        <div className="p-5 md:p-6 bg-white border-t-2 border-slate-200 shrink-0 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+          <div className="flex justify-between items-end mb-4 md:mb-5">
+            <span className="text-sm md:text-base text-slate-500 font-medium">Seat Total</span>
+            <span className="text-3xl md:text-4xl font-bold text-slate-800">
               ₹{activeCustomer ? calculateCustomerTotal(activeCustomer).toFixed(2) : '0.00'}
             </span>
           </div>
           <button
             onClick={() => setShowPaymentModal(true)}
             disabled={!activeCustomer || calculateTableTotal(activeTable) === 0}
-            className="w-full py-4 bg-orange-600 hover:bg-orange-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl font-bold text-lg shadow-lg shadow-orange-200 active:scale-95 transition-all flex items-center justify-center gap-2"
+            className="w-full py-5 md:py-6 bg-orange-600 hover:bg-orange-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl font-bold text-xl md:text-2xl shadow-lg shadow-orange-200 active:scale-95 transition-all flex items-center justify-center gap-2 md:gap-3"
           >
-            <IndianRupee size={20} /> PAY / BILL
+            <IndianRupee size={24} className="md:w-7 md:h-7" /> PAY / BILL
           </button>
         </div>
       </div>
 
       {/* RIGHT: Menu Grid (FLATTENED + CONTROLS) */}
-      <div className="w-full md:w-2/3 flex flex-col bg-slate-50 h-full p-4 overflow-y-auto">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-20">
+      <div className="w-full md:w-2/3 flex flex-col bg-slate-50 h-full p-3 md:p-6 overflow-y-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 pb-20">
           {menuItems.map(item => {
             const qty = getItemQty(item.id);
 
@@ -1038,37 +1038,37 @@ export default function RestaurantPOS() {
                 key={item.id}
                 onClick={() => qty === 0 && addItemToOrder(item)}
                 className={`
-                    relative bg-white p-4 h-32 rounded-2xl border shadow-sm transition-all flex flex-col justify-between items-start text-left select-none
+                    relative bg-white p-4 md:p-6 h-36 md:h-44 rounded-2xl border-2 shadow-md transition-all flex flex-col justify-between items-start text-left select-none
                     ${qty > 0
-                    ? 'border-orange-500 shadow-orange-100 ring-1 ring-orange-500'
-                    : 'border-slate-200 hover:border-orange-400 hover:shadow-md cursor-pointer active:scale-95'}
+                    ? 'border-orange-500 shadow-orange-200 ring-2 ring-orange-400'
+                    : 'border-slate-200 hover:border-orange-400 hover:shadow-lg cursor-pointer active:scale-95'}
                   `}
               >
-                <span className="font-bold text-slate-700 leading-tight text-lg">{item.name}</span>
+                <span className="font-bold text-slate-800 leading-tight text-lg md:text-2xl">{item.name}</span>
 
                 <div className="w-full flex justify-between items-end mt-2">
-                  <span className="text-slate-500 text-md font-medium">₹{item.price}</span>
+                  <span className="text-slate-600 text-lg md:text-xl font-bold">₹{item.price}</span>
 
                   {qty > 0 ? (
-                    /* QUANTITY CONTROLS ON SELECTING SIDE */
-                    <div className="flex items-center bg-orange-50 rounded-full border border-orange-200">
+                    /* QUANTITY CONTROLS - TABLET OPTIMIZED */
+                    <div className="flex items-center bg-orange-50 rounded-full border-2 border-orange-400 shadow-sm">
                       <button
                         onClick={(e) => decreaseItemQuantity(item.id, e)}
-                        className="w-8 h-8 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-l-full active:bg-orange-200"
+                        className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-l-full active:bg-orange-200 transition-colors"
                       >
-                        <Minus size={16} />
+                        <Minus size={20} className="md:w-6 md:h-6" />
                       </button>
-                      <span className="w-6 text-center font-bold text-orange-700">{qty}</span>
+                      <span className="w-8 md:w-12 text-center font-bold text-orange-700 text-lg md:text-2xl">{qty}</span>
                       <button
                         onClick={(e) => addItemToOrder(item, e)}
-                        className="w-8 h-8 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-r-full active:bg-orange-200"
+                        className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-r-full active:bg-orange-200 transition-colors"
                       >
-                        <Plus size={16} />
+                        <Plus size={20} className="md:w-6 md:h-6" />
                       </button>
                     </div>
                   ) : (
-                    <div className="w-10 h-10 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center">
-                      <Plus size={20} />
+                    <div className="w-12 h-12 md:w-16 md:h-16 bg-emerald-50 text-emerald-600 border-2 border-emerald-200 rounded-full flex items-center justify-center shadow-sm">
+                      <Plus size={24} className="md:w-8 md:h-8" />
                     </div>
                   )}
                 </div>
