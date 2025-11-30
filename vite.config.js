@@ -7,5 +7,5 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   // Set base to your repository name for GitHub Pages
   // For example, if repo is github.com/username/resturant-ordering, use '/resturant-ordering/'
-  base: '/pos.github.io/', // Change this to match your GitHub repository name
+  base: '/pos/', // Change this to match your GitHub repository name
 })
