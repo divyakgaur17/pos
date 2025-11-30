@@ -87,6 +87,61 @@ export default function RestaurantPOS() {
     initDb();
   }, []);
 
+  // --- Android Back Button & Browser History Support (PWA) ---
+  useEffect(() => {
+    // Push initial state
+    if (window.history.state === null) {
+      window.history.replaceState({ view: 'dashboard' }, '', '');
+    }
+
+    const handlePopState = (event) => {
+      event.preventDefault();
+
+      // Handle back navigation based on current state
+      if (showPaymentModal) {
+        // Close payment modal
+        setShowPaymentModal(false);
+        window.history.pushState({ view, activeTableId }, '', '');
+      } else if (showMenuModal) {
+        // Close menu modal
+        setShowMenuModal(false);
+        setEditingMenuItem(null);
+        window.history.pushState({ view }, '', '');
+      } else if (view === 'order' && activeTableId !== null) {
+        // Go back to dashboard from order view
+        setActiveTableId(null);
+        setView('dashboard');
+        setShowPaymentModal(false);
+      } else if (view === 'history' || view === 'menu') {
+        // Go back to dashboard from history or menu
+        setView('dashboard');
+      } else {
+        // Already on dashboard - let the app close (on Android)
+        // Don't prevent default, let it close naturally
+        return;
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [view, activeTableId, showPaymentModal, showMenuModal]);
+
+  // Update history when view changes
+  useEffect(() => {
+    if (view === 'dashboard') {
+      window.history.pushState({ view: 'dashboard' }, '', '');
+    } else if (view === 'order' && activeTableId) {
+      window.history.pushState({ view: 'order', activeTableId }, '', '');
+    } else if (view === 'history') {
+      window.history.pushState({ view: 'history' }, '', '');
+    } else if (view === 'menu') {
+      window.history.pushState({ view: 'menu' }, '', '');
+    }
+  }, [view, activeTableId]);
+
   // --- Derived State ---
   const activeTable = useMemo(() =>
     tables?.find(t => t.id === activeTableId),
