@@ -325,11 +325,15 @@ export default function RestaurantPOS() {
       'Confirm Payment',
       `Confirm payment of ₹${calculateCustomerTotal(customer).toFixed(2)} for ${customer.name}?`,
       async () => {
-        await addToHistory(customer, activeTableId);
-        const newCustomers = [...activeTable.customers];
-        newCustomers[customerIndex] = { ...newCustomers[customerIndex], orders: [] };
-
-        await db.diningTables.put({ ...activeTable, customers: newCustomers });
+        try {
+          await addToHistory(customer, activeTableId);
+          const newCustomers = [...activeTable.customers];
+          newCustomers[customerIndex] = { ...newCustomers[customerIndex], orders: [] };
+          await db.diningTables.put({ ...activeTable, customers: newCustomers });
+        } catch (error) {
+          console.error('Payment error:', error);
+          alert(`Payment failed: ${error.message}`);
+        }
       },
       'Pay Now',
       'Cancel'
@@ -344,13 +348,18 @@ export default function RestaurantPOS() {
       'Confirm Payment',
       `Confirm FULL TABLE payment of ₹${total.toFixed(2)}?`,
       async () => {
-        for (const cust of activeTable.customers) {
-          await addToHistory(cust, activeTableId);
+        try {
+          for (const cust of activeTable.customers) {
+            await addToHistory(cust, activeTableId);
+          }
+          await db.diningTables.put({ ...activeTable, customers: [] });
+          setShowPaymentModal(false);
+          setActiveTableId(null);
+          setView('dashboard');
+        } catch (error) {
+          console.error('Payment error:', error);
+          alert(`Payment failed: ${error.message}`);
         }
-        await db.diningTables.put({ ...activeTable, customers: [] });
-        setShowPaymentModal(false);
-        setActiveTableId(null);
-        setView('dashboard');
       },
       'Pay Now',
       'Cancel'
@@ -407,9 +416,22 @@ export default function RestaurantPOS() {
 
   // --- Menu Management Functions (Feature #7) ---
   const addMenuItem = async (menuItem) => {
-    await db.menuItems.add(menuItem);
-    setShowMenuModal(false);
-    setEditingMenuItem(null);
+    try {
+      // Ensure the menu item has all required fields
+      const itemToAdd = {
+        name: menuItem.name || 'Unnamed Item',
+        price: parseFloat(menuItem.price) || 0,
+        category: menuItem.category || 'Other'
+      };
+
+      const id = await db.menuItems.add(itemToAdd);
+      console.log('Added menu item with ID:', id);
+      setShowMenuModal(false);
+      setEditingMenuItem(null);
+    } catch (error) {
+      console.error('Error adding menu item:', error);
+      alert(`Failed to add menu item: ${error.message}`);
+    }
   };
 
   const updateMenuItem = async (id, updates) => {
